@@ -1,27 +1,48 @@
-var randomNumber1 = Math.floor(Math.random() * 6) + 1;
+"use strict";
 
-var randomDiceImage = "dice" + randomNumber1 + ".png";
+// --- ELEMENTS  --- //
+const img1 = document.querySelector(".img1");
+const img2 = document.querySelector(".img2");
+const header = document.querySelector("h1");
+const button = document.querySelector("button");
+// --- END OF ELEMENTS  --- //
 
-var randomImageSource = "images/" + randomDiceImage;
+// ---- FUNCTIONS ---- //
+let randomImgSrc1;
+let randomImgSrc2;
 
-var image1 = document.querySelectorAll("img")[0];
+const getRandomDiceImg = () => {
+  const randomNum = Math.floor(Math.random() * 6) + 1;
+  return `dice${randomNum}.png`;
+};
 
-image1.setAttribute("src", randomImageSource);
+const updateDiceImg = () => {
+  randomImgSrc1 = `images/${getRandomDiceImg()}`;
+  randomImgSrc2 = `images/${getRandomDiceImg()}`;
 
+  img1.setAttribute("src", randomImgSrc1);
+  img2.setAttribute("src", randomImgSrc2);
+};
 
-var randomNumber2 = Math.floor(Math.random() * 6) + 1;
+const updateHeader = () => {
+  const randomNum1 = parseInt(randomImgSrc1.match(/\d/));
+  const randomNum2 = parseInt(randomImgSrc2.match(/\d/));
 
-var randomImageSource2 = "images/dice" + randomNumber2 + ".png";
+  if (randomNum1 > randomNum2) {
+    header.innerHTML = "🚩 Play 1 Wins!";
+  } else if (randomNum1 < randomNum2) {
+    header.innerHTML = "🚩 Play 2 Wins!";
+  } else {
+    header.innerHTML = "Draw!";
+  }
+};
 
-document.querySelectorAll("img")[1].setAttribute("src", randomImageSource2);
+const rollDice = () => {
+  updateDiceImg();
+  updateHeader();
+};
+// ---- END OF FUNCTIONS ---- //
 
-
-if (randomNumber1 > randomNumber2) {
-  document.querySelector("h1").innerHTML = "🚩 Play 1 Wins!";
-}
-else if (randomNumber2 > randomNumber1) {
-  document.querySelector("h1").innerHTML = "Player 2 Wins! 🚩";
-}
-else {
-  document.querySelector("h1").innerHTML = "Draw!";
-}
+// ---- EVENT HANDLERS ---- //
+button.addEventListener("click", rollDice);
+// ---- EVENT HANDLERS ---- //
